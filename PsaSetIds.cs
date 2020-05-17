@@ -38,5 +38,13 @@ namespace PopHistoryFunction
                 return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
             }
         }
+
+        [FunctionName("HelloWorld")]
+        public async Task<IActionResult> Run2(
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+            return new OkObjectResult("Hello World");
+        }
     }
 }
