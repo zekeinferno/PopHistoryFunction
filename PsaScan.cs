@@ -125,8 +125,7 @@ namespace PopHistoryFunction
                                 Pop085 = FindPopulation(tds, pop085),
                                 Pop09 = FindPopulation(tds, pop09),
                                 Pop095 = FindPopulation(tds, pop095),
-                                Pop10 = FindPopulation(tds, pop10),
-                                DateCreated = new DateTime(2020, 9, 13)
+                                Pop10 = FindPopulation(tds, pop10)
                             };
 
                             psaPopHistories.Add(psaPopHistory);
