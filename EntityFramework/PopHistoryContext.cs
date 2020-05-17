@@ -18,7 +18,7 @@ namespace PopHistoryFunction.EntityFramework
         public virtual DbSet<PsaCard> PsaCard { get; set; }
         public virtual DbSet<PsaCustomSet> PsaCustomSet { get; set; }
         public virtual DbSet<PsaCustomSetCard> PsaCustomSetCard { get; set; }
-        public virtual DbSet<PsaPopHistoryFunction> PsaPopHistoryFunction { get; set; }
+        public virtual DbSet<PsaPopHistory> PsaPopHistoryFunction { get; set; }
         public virtual DbSet<PsaSet> PsaSet { get; set; }
         public virtual DbSet<Series> Series { get; set; }
 
@@ -49,6 +49,14 @@ namespace PopHistoryFunction.EntityFramework
                     .HasForeignKey(d => d.SetId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("card_set_id_fk");
+
+                entity.Property(x => x.CurrentTotalGraded)
+                    .HasColumnName("current_total_graded")
+                    .HasDefaultValue(0);
+
+                entity.Property(x => x.CurrentPop10)
+                    .HasColumnName("current_pop_10")
+                    .HasDefaultValue(0);
             });
 
             modelBuilder.Entity<PsaCustomSet>(entity =>
@@ -92,7 +100,7 @@ namespace PopHistoryFunction.EntityFramework
                     .HasConstraintName("custom_set_card_custom_set_id_fk");
             });
 
-            modelBuilder.Entity<PsaPopHistoryFunction>(entity =>
+            modelBuilder.Entity<PsaPopHistory>(entity =>
             {
                 entity.ToTable("psa_pop_history");
 

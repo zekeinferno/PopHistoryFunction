@@ -49,7 +49,8 @@ namespace PopHistoryFunction
 
                     var ths = doc.DocumentNode.Descendants("TH").ToList();
 
-                    var psaPopHistories = new List<PsaPopHistoryFunction>();
+                    var psaCards = new List<PsaCard>();
+                    var psaPopHistories = new List<PsaPopHistory>();
 
                     try
                     {
@@ -106,9 +107,10 @@ namespace PopHistoryFunction
                             {
                                 _context.PsaCard.Add(card);
                                 _context.SaveChanges();
+                                cardMatch = card;
                             }
 
-                            psaPopHistories.Add(new PsaPopHistoryFunction
+                            var psaPopHistory = new PsaPopHistory
                             {
                                 CardId = cardMatch == null ? card.Id : cardMatch.Id,
                                 PopAuth = FindPopulation(tds, auth),
@@ -123,8 +125,27 @@ namespace PopHistoryFunction
                                 Pop085 = FindPopulation(tds, pop085),
                                 Pop09 = FindPopulation(tds, pop09),
                                 Pop095 = FindPopulation(tds, pop095),
-                                Pop10 = FindPopulation(tds, pop10)
-                            });
+                                Pop10 = FindPopulation(tds, pop10),
+                                DateCreated = new DateTime(2020, 9, 13)
+                            };
+
+                            psaPopHistories.Add(psaPopHistory);
+
+                            cardMatch.CurrentPop10 = psaPopHistory.Pop10 ?? 0;
+                            cardMatch.CurrentTotalGraded =
+                                (psaPopHistory.PopAuth ?? 0) +
+                                (psaPopHistory.Pop01 ?? 0) +
+                                (psaPopHistory.Pop02 ?? 0) +
+                                (psaPopHistory.Pop03 ?? 0) +
+                                (psaPopHistory.Pop04 ?? 0) +
+                                (psaPopHistory.Pop05 ?? 0) +
+                                (psaPopHistory.Pop06 ?? 0) +
+                                (psaPopHistory.Pop07 ?? 0) +
+                                (psaPopHistory.Pop08 ?? 0) +
+                                (psaPopHistory.Pop09 ?? 0) +
+                                (psaPopHistory.Pop10 ?? 0);
+
+                            psaCards.Add(cardMatch);
                         }
                     }
                     catch (Exception ex)
@@ -133,6 +154,7 @@ namespace PopHistoryFunction
                         throw;
                     }
 
+                    _context.PsaCard.UpdateRange(psaCards);
                     _context.PsaPopHistoryFunction.AddRange(psaPopHistories);
                     _context.SaveChanges();
                 }

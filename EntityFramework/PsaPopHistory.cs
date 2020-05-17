@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PopHistoryFunction.EntityFramework
 {
-    public partial class PsaPopHistoryFunction
+    public partial class PsaPopHistory
     {
         public int Id { get; set; }
         public int CardId { get; set; }
